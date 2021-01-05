@@ -1,6 +1,6 @@
 # Showmaster
 
-In september 2019 ben ik gestart met het omscholingstraject Make IT Work:
+In september 2019 begon ik aan het omscholingstraject Make IT Work:
 
 *Make IT Work is een initiatief van de Hogeschool van Amsterdam (HvA) en startte in 2015. In samenwerking met NHL Stenden en de HvA start de IT Academy dit traject in het Noorden.*
 
