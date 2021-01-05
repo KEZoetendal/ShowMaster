@@ -1,6 +1,6 @@
 # Showmaster
 
-In september 2018 ben ik gestart met het omscholingstraject Make IT Work:
+In september 2019 ben ik gestart met het omscholingstraject Make IT Work:
 
 *Make IT Work is een initiatief van de Hogeschool van Amsterdam (HvA) en startte in 2015. In samenwerking met NHL Stenden en de HvA start de IT Academy dit traject in het Noorden.*
 
@@ -16,4 +16,4 @@ Daarnaast heb ik het gedeelte toegevoegd waardoor Excelbestanden geüpload kunne
 Ook heb ik de verschillende css stylesheets toegevoegd, om naast de standaard Bootstrap layouts aangepaste styling te kunnen gebruiken.
 
 
-In oktober 2019 heb ik het omscholingstraject succesvol afgerond en het diploma Software Engineering behaald.
+In september 2020 heb ik het omscholingstraject succesvol afgerond en het diploma Software Engineering behaald.
