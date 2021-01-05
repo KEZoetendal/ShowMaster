@@ -5,7 +5,9 @@ import io.github.millij.poi.ss.reader.XlsReader;
 import io.github.millij.poi.ss.reader.XlsxReader;
 import nl.makeitwork.Showmaster.model.Voorstelling;
 import nl.makeitwork.Showmaster.repository.VoorstellingRepository;
+import nl.makeitwork.Showmaster.service.VoorstellingsTaakService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,21 +20,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * @author Karin Zoetendal
+ * deze klasse zorgt ervoor dat er Excel bestanden kunnen worden geselecteerd, geupdated en uitgelezen
+ * op die manier kunnen voorstellingen worden ingelezen
+ */
+
 @Controller
 public class ExcelController {
 
     @Autowired
-    VoorstellingController voorstellingController;
-
+    private VoorstellingRepository voorstellingRepository;
     @Autowired
-    VoorstellingRepository voorstellingRepository;
+    @Qualifier("voorstellingsTaakService")
+    private VoorstellingsTaakService voorstellingsTaakService;
 
     private String fileLocation;
+
 
     @GetMapping("/planner/voorstellingen/excel")
     public String getExcelProcessingPage() {
         return "excel";
     }
+
 
     @PostMapping("/planner/voorstellingen/excel/upload")
     public String uploadFile(Model model, MultipartFile file) throws IOException {
@@ -49,8 +59,9 @@ public class ExcelController {
         f.close();
         model.addAttribute("message", "Uploaden van bestand: " + file.getOriginalFilename()
                 + " is geslaagd.");
-        return "excel";
+        return "excelGeslaagd";
     }
+
 
     @GetMapping("/planner/voorstellingen/excel/toevoegen")
     public String excelVoorstellingToevoegen(Model model) throws SpreadsheetReadException {
@@ -69,6 +80,7 @@ public class ExcelController {
         return "redirect:/planner/voorstellingen";
     }
 
+
     public void readExcelXlsx(String fileLocation) throws SpreadsheetReadException {
 
         final File xlsxFile = new File(fileLocation);
@@ -81,10 +93,11 @@ public class ExcelController {
             if (voorstellingRepository.findByNaam(nieuweVoorstelling.getNaam()) != null
                     && voorstellingRepository.findByLocalDateTime(nieuweVoorstelling.getLocalDateTime()) != null) {
             } else {
-                voorstellingController.voorstellingOpslaanInclTaken(nieuweVoorstelling);
+                voorstellingsTaakService.voorstellingOpslaanInclTaken(nieuweVoorstelling);
             }
         }
     }
+
 
     public void readExcelXls(String fileLocation) throws SpreadsheetReadException {
 
@@ -98,7 +111,7 @@ public class ExcelController {
             if (voorstellingRepository.findByNaam(nieuweVoorstelling.getNaam()) != null
                     && voorstellingRepository.findByLocalDateTime(nieuweVoorstelling.getLocalDateTime()) != null) {
             } else {
-                voorstellingController.voorstellingOpslaanInclTaken(nieuweVoorstelling);
+                voorstellingsTaakService.voorstellingOpslaanInclTaken(nieuweVoorstelling);
             }
         }
     }

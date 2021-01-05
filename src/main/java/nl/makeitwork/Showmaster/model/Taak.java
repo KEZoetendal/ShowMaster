@@ -1,4 +1,5 @@
 package nl.makeitwork.Showmaster.model;
+
 import javax.persistence.*;
 
 /**
@@ -21,11 +22,11 @@ public class Taak {
     @Override
     public String toString() {
         return "Taak{" +
-            "taakId=" + taakId +
-            ", taakNaam='" + taakNaam + '\'' +
-            ", standaardBezetting=" + standaardBezetting +
-            ", voorstellingsTaak=" +
-            '}';
+                "taakId=" + taakId +
+                ", taakNaam='" + taakNaam + '\'' +
+                ", standaardBezetting=" + standaardBezetting +
+                ", voorstellingsTaak=" +
+                '}';
     }
 
     public Integer getTaakId() {

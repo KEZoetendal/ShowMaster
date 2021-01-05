@@ -7,6 +7,10 @@ import org.springframework.mail.SimpleMailMessage;
 
 import javax.persistence.*;
 
+/**
+ * @author ******
+ */
+
 @Entity
 public class EmailMetToken {
 
@@ -24,6 +28,7 @@ public class EmailMetToken {
 
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(nullable = false, name = "verificatieTokenId")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private VerificatieToken verificatieToken;
 
     public VerificatieToken getVerificatieToken() {

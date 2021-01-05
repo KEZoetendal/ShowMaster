@@ -8,16 +8,16 @@
 
 <!doctype html>
 <html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="${contextPath}\resources\css\custom.css" type="text/css" rel="stylesheet">
-    <link href="${contextPath}\resources\css\all.css" type="text/css" rel="stylesheet">
-    <link href="${contextPath}\resources\css\radioButton.css" type="text/css" rel="stylesheet">
-    <script src="${contextPath}\resources\js\ajax.js"></script>
-    <script src="${contextPath}\resources\js\javascript.functies.js"></script>
-</head>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+              integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="${contextPath}\resources\css\custom.css" type="text/css" rel="stylesheet">
+        <link href="${contextPath}\resources\css\all.css" type="text/css" rel="stylesheet">
+        <link href="${contextPath}\resources\css\radioButton.css" type="text/css" rel="stylesheet">
+        <script src="${contextPath}\resources\js\ajax.js"></script>
+        <script src="${contextPath}\resources\js\javascript.functies.js"></script>
+    </head>
 
     <body>
         <jsp:include page="navbar.jsp"/>
@@ -44,14 +44,15 @@
                         </tr>
                    </table>
                 <br>
+                <a id="terugNaarRooster" class="btn btn-primary" href="${contextPath}/medewerker/rooster">Terug naar rooster</a>
                 <table class="table table-hover" id="myTable">
                     <thead>
                     <tr>
-                        <th id="voorstellingsnaam" scope="col" onclick="sortTable(0)">Voorstelling</th>
-                        <th scope="col" onclick="sortTable(1)">Datum</th>
-                        <th scope="col">Ja</th>
-                        <th scope="col">Misschien</th>
-                        <th scope="col">Nee</th>
+                        <th class="sticky-top" id="voorstellingsnaam" scope="col" onclick="sortTable(0)">Voorstelling</th>
+                        <th class="sticky-top" scope="col" onclick="sortTable(1)">Datum</th>
+                        <th class="sticky-top" scope="col">Ja</th>
+                        <th class="sticky-top" scope="col">Misschien</th>
+                        <th class="sticky-top" scope="col">Nee</th>
                     </tr>
                     </thead>
 

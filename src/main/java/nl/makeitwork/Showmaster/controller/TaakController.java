@@ -6,30 +6,67 @@ import nl.makeitwork.Showmaster.model.VoorstellingsTaak;
 import nl.makeitwork.Showmaster.repository.TaakRepository;
 import nl.makeitwork.Showmaster.repository.VoorstellingRepository;
 import nl.makeitwork.Showmaster.repository.VoorstellingsTaakRepository;
+import nl.makeitwork.Showmaster.service.VoorstellingsTaakService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author Karin Zoetendal
- * 11-12-19: deze klasse checkt of alle tekstvelden zijn ingevuld en zorgt er dan voor dat een taak wordt opgeslagen in
- * de database.
+ * 13-02-20: met deze klasse kan een standaardtaak worden aangemaakt, gewijzigd of verwijderd
+ * Bij het aanpassen van standaardbezetting, of verwijderen van een standaardtaak, worden deze veranderingen ook
+ * doorgevoerd bij ongepubliceerde voorstellingen
  */
 
 @Controller
 public class TaakController {
 
     @Autowired
-    public TaakRepository taakRepository;
+    private TaakRepository taakRepository;
     @Autowired
     private VoorstellingRepository voorstellingRepository;
     @Autowired
     private VoorstellingsTaakRepository voorstellingsTaakRepository;
+    @Autowired
+    @Qualifier("voorstellingsTaakService")
+    private VoorstellingsTaakService voorstellingsTaakService;
+
+    @GetMapping("/planner/taak/beheer")
+    protected String showAlleTaken(Model model) {
+        // Alle voorstellingstaken bij ongepubliceerde voorstellingen ophalen
+        List<VoorstellingsTaak> voorstellingsTaakBijGepubliceerdeVoorstelling = voorstellingsTaakRepository.findByVoorstellingStatus("Gepubliceerd");
+        List<Taak> alleTaken = taakRepository.findAll();
+
+        model.addAttribute("alleTaken", alleTaken);
+
+        // Voor iedere voorstellingstaak de bijbehorende taak in een lijst zetten
+        List<Taak> taakBijVoorstellingsTaak = new ArrayList<>();
+
+        for (VoorstellingsTaak voorstellingstaak : voorstellingsTaakBijGepubliceerdeVoorstelling) {
+            taakBijVoorstellingsTaak.add(voorstellingstaak.getTaak());
+        }
+
+        // HashMap aanmaken met alle taken met bijbehorende boolean, welke aangeeft of taak voorkomt in voorstellingstaken ongepubliceerde voorstellingen
+        Map<Taak, Boolean> takenIngeplandBijGepubliceerdeVoorstellingen = new HashMap<>();
+
+        for (Taak taak : alleTaken) {
+            boolean ingeplandBijGepubliceerdeVoorstelling = taakBijVoorstellingsTaak.contains(taak);
+            takenIngeplandBijGepubliceerdeVoorstellingen.put(taak, ingeplandBijGepubliceerdeVoorstelling);
+        }
+        model.addAttribute("takenIngeplandBijGepubliceerdeVoorstellingen", takenIngeplandBijGepubliceerdeVoorstellingen);
+
+        return "taakBeheer";
+    }
+
 
     @GetMapping("/planner/taak/aanmaken")
     protected String showTaakAanmaken(Taak taak) {
@@ -38,82 +75,68 @@ public class TaakController {
 
 
     @PostMapping("/planner/taak/aanmaken")
-    protected String saveOrUpdateTaakAanmaken(Taak taak) {
-        if (taak.getTaakNaam() != null && !taak.getTaakNaam().isEmpty() &&
-                taak.getStandaardBezetting() != null) {
-            taakRepository.save(taak);
-            return "redirect:/rooster";
+    protected String saveOrUpdateTaak(Taak taak, BindingResult result) {
+        if (!result.hasErrors()) {
+            if (taak.getTaakNaam() != null && !taak.getTaakNaam().isEmpty() &&
+                    taak.getStandaardBezetting() != null) {
+                taakRepository.save(taak);
+
+                for (Voorstelling ongepubliceerdeVoorstelling : voorstellingRepository.findAllByStatus("Ongepubliceerd")) {
+                    voorstellingsTaakService.standaardTaakOpslaanBijVoorstelling(taak.getStandaardBezetting(), ongepubliceerdeVoorstelling, taak);
+                }
+            }
+            return "redirect:/planner/taak/beheer";
         } else {
             return "taakAanmaken";
         }
     }
 
-    @GetMapping("/planner/taak/add/{taakId}")
-    protected String addTaak(@PathVariable("taakId") final Integer taakId, HttpServletRequest request ) {
+
+    @GetMapping("/planner/taak/wijzigen/{taakId}")
+    protected String wijzigTaak(@PathVariable Integer taakId, Model model, HttpServletRequest request) {
+
         Optional<Taak> taak = taakRepository.findById(taakId);
-
-        Integer voorstellingId = (Integer)(request.getSession().getAttribute("voorstellingId"));
-        Voorstelling voorstelling = voorstellingRepository.findById(voorstellingId).get();
-
-        if (taak.isPresent()){
-            VoorstellingsTaak voorstellingsTaak = new VoorstellingsTaak();
-            voorstellingsTaak.setVoorstelling(voorstelling);
-            voorstellingsTaak.setTaak(taak.get());
-
-            voorstellingsTaakRepository.save(voorstellingsTaak);
+        if (!taak.isPresent()) {
+            return "redirect:/planner/taak/beheer";
+        } else {
+            request.getSession().setAttribute("taakId", taakId);
+            model.addAttribute("taak", taak.get());
+            return "wijzigTaak";
         }
-        return "redirect:/planner/voorstelling/details/{voorstellingId}";
     }
 
-    @GetMapping("/taak/setup")
-    protected String setupTakenInDatabase() {
-        Taak taak1 = new Taak();
-        taak1.setTaakNaam("Bar");
-        taak1.setStandaardBezetting(2);
-        taakRepository.save(taak1);
 
-        Taak taak2 = new Taak();
-        taak2.setTaakNaam("Kaartverkoop");
-        taak2.setStandaardBezetting(1);
-        taakRepository.save(taak2);
+    @PostMapping("/planner/taak/wijzigen")
+    protected String updateTaak(@ModelAttribute("taak") Taak taak, BindingResult result) {
 
-        Taak taak4 = new Taak();
-        taak4.setTaakNaam("Kaartcontrole");
-        taak4.setStandaardBezetting(1);
-        taakRepository.save(taak4);
+        if (!result.hasErrors()) {
 
-        Taak taak3 = new Taak();
-        taak3.setTaakNaam("Garderobe");
-        taak3.setStandaardBezetting(1);
-        taakRepository.save(taak3);
+            taakRepository.save(taak);
 
-        Taak taak5 = new Taak();
-        taak5.setTaakNaam("Foto");
-        taak5.setStandaardBezetting(0);
-        taakRepository.save(taak5);
+            for (Voorstelling voorstelling : voorstellingRepository.findAllByStatus("Ongepubliceerd")) {
 
-        Taak taak6 = new Taak();
-        taak6.setTaakNaam("Backstage");
-        taak6.setStandaardBezetting(0);
-        taakRepository.save(taak6);
+                Integer nieuweStandaardBezetting = taak.getStandaardBezetting();
+                Integer aantalKeerIngeplandAlsVoorstellingsTaak =
+                        voorstellingsTaakRepository.countByVoorstellingVoorstellingIdAndTaakTaakId(voorstelling.getVoorstellingId(), taak.getTaakId());
 
-        Taak taak7 = new Taak();
-        taak7.setTaakNaam("Catering");
-        taak7.setStandaardBezetting(0);
-        taakRepository.save(taak7);
-
-        Taak taak8 = new Taak();
-        taak8.setTaakNaam("Steward");
-        taak8.setStandaardBezetting(0);
-        taakRepository.save(taak8);
-
-        return "redirect:/rooster";
+                if (nieuweStandaardBezetting > aantalKeerIngeplandAlsVoorstellingsTaak) {
+                    voorstellingsTaakService.standaardTaakOpslaanBijVoorstelling((nieuweStandaardBezetting - aantalKeerIngeplandAlsVoorstellingsTaak), voorstelling, taak);
+                } else if (nieuweStandaardBezetting < aantalKeerIngeplandAlsVoorstellingsTaak) {
+                    voorstellingsTaakRepository.deleteByTaakAndVoorstelling(taak, voorstelling);
+                    voorstellingsTaakService.standaardTaakOpslaanBijVoorstelling(nieuweStandaardBezetting, voorstelling, taak);
+                }
+            }
+        } else {
+            return "wijzigTaak";
+        }
+        return "redirect:/planner/taak/beheer";
     }
+
 
     @GetMapping("/planner/taak/verwijderen/{taakId}")
     public String verwijderStandaardTaak(@PathVariable Integer taakId) {
+        voorstellingsTaakRepository.deleteByTaakTaakIdAndVoorstellingStatus(taakId, "Ongepubliceerd");
         taakRepository.deleteById(taakId);
-        return "redirect:/rooster";
+        return "redirect:/planner/taak/beheer";
     }
-
 }

@@ -3,12 +3,13 @@
 
 <!doctype html>
 <html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform">
-<head>
-    <title></title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <link href="${contextPath}\resources\css\custom.css" type="text/css" rel="stylesheet">
-    <script src="${contextPath}\resources\js\ajax.js"></script>
-</head>
+    <head>
+        <title></title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="${contextPath}\resources\css\custom.css" type="text/css" rel="stylesheet">
+        <script src="${contextPath}\resources\js\ajax.js"></script>
+    </head>
+
     <body>
         <h2>Wanneer moet je werken?</h2>
             <form:hidden path="profielId" />
@@ -27,10 +28,10 @@
 
                     <c:forEach items="${allePersoonlijkeVoorstellingsTaken}" var="allePersoonlijkeVoorstellingsTaken">
                         <tr>
-                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.getVoorstelling().getNaam()}"/></td>
+                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.voorstelling.naam}"/></td>
                             <td>
                                 <c:choose>
-                                    <c:when test="${allePersoonlijkeVoorstellingsTaken.getVoorstelling().getStatus() == 'Geannuleerd'}">
+                                    <c:when test="${allePersoonlijkeVoorstellingsTaken.voorstelling.status == 'Geannuleerd'}">
                                         <span class="badge badge-danger">Geannuleerd</span>
                                     </c:when>
                                     <c:otherwise>
@@ -38,9 +39,9 @@
                                     </c:otherwise>
                                 </c:choose>
                             </td>
-                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.getVoorstelling().getDatum()}"/></td>
-                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.getTaak().getTaakNaam()}"/></td>
-                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="roosterLaden(${allePersoonlijkeVoorstellingsTaken.getVoorstelling().getVoorstellingId()}, '${contextPath}')">
+                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.voorstelling.datum}"/></td>
+                            <td><c:out value="${allePersoonlijkeVoorstellingsTaken.taak.taakNaam}"/></td>
+                            <td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" onclick="roosterLaden(${allePersoonlijkeVoorstellingsTaken.voorstelling.voorstellingId}, '${contextPath}')">
                                 Rooster bekijken
                             </button></td>
                         </tr>
@@ -61,7 +62,6 @@
                         <p id="rooster"></p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Sluiten</button>
                     </div>
                 </div>
             </div>

@@ -1,10 +1,15 @@
 @import url("https://fonts.googleapis.com/css?family=Days+One|PT+Sans:400,400i,700,700i");
-html,footer,header,hgroup,menu,nav,{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}button,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}
+html,footer,header,hgroup,menu,nav{margin:0;padding:0;border:0;font:inherit;vertical-align:baseline}article,aside,details,figcaption,figure,footer,header,hgroup,menu,nav,section{display:block}button,optgroup,select,textarea{color:inherit;font:inherit;margin:0}button{overflow:visible}
+
+html, body {
+    height: 100%;
+    margin: 0;
+}
 
 /* items in navbar in font als Bolwerk site */
-header .nav-item {
-  font-family: "Days One"; sans-serif;
-  font-size: 0.7rem;
+.nav-item {
+    font-family: "Days One", sans-serif;
+    font-size: 0.8rem;
 }
 
 #headerNavbar .navbar-light .navbar-nav .nav-link:hover
@@ -18,7 +23,7 @@ body
 .h3,h3{font-size:1rem; font-weight:700}
 .h4,h4{font-size:0.75rem; font-weight:700}
 .h5,h5{font-size:0.5rem; font-weight:700}
-.h6,h6{font-size:0.25rem; font-weight:700}
+.h6,h6{font-size:.25rem; font-weight:700}
 
 
 /* buttons in font als Bolwerk site */
@@ -53,6 +58,14 @@ i.fas, i.far {
     color: #0B72A9;
   }
 
+.fa-trash, .fa-edit {
+    cursor:pointer;
+}
+
+#wijzigingenTaakOpslaan, #taakOpslaan {
+     cursor:pointer;
+}
+
 .jumbotron-fluid{padding:2rem 1rem;margin-bottom:2rem;background-color:#0B72A9;border-radius:.0rem}
 
 .voorstellingDisplay4 {
@@ -64,9 +77,28 @@ color: #fff; font-size:1.5rem; font-weight:700}
 #voorstellingDatumDisplay4 {
 color: #fff; font-size:1rem}
 
-#voegVoorstellingToeButton, #nieuweVoorstellingModalButton, #voorstellingenImporterenExcelButton{
+#nieuweVoorstellingModalButton, #importExcelModalButton, #nieuweTaakModalButton, #overzichtVoorstellingenButton, #terugNaarRooster{
   margin-bottom: 15px;
-  color: #fff
+  color: #fff;
+  cursor:pointer;
+}
+
+#containerLoginWWReset{
+  background-color: white;
+  border-radius: 25px;
+  padding: 1%;
+  margin: 0 auto;
+  width: 450px;
+
+}
+#bolwerkAchtergrondFoto {
+  background-image: url("https://hetbolwerk.nl/wp-content/uploads/2018/08/visual-poppodiumhetbolwerk.jpg");
+
+  height: 100%;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
 }
 
 #medewerkerUitnodigenButton{margin-top: 15px; margin-bottom: 15px}
@@ -83,6 +115,11 @@ height: 80px;
 color: #fff;
 }
 
+#mainJumbotron{
+  background-color:#0B72A9;
+}
+
+
 #beschikbareMedewerkers {
   margin-top: 10px;
 }
@@ -98,9 +135,8 @@ color: #fff;
 
 #genereerRooster {
   color: #fff;
-  background-color: #dc3545;
-  border-color: #dc3545;
 }
+
 
 .voorkeursTaakInRooster {
   position: relative;
@@ -136,3 +172,9 @@ color: #fff;
   border-radius: 15px;
   text-align: center;
 }
+
+.sticky-top {
+  background: white;
+  box-shadow: inset 0 1px #d3d3d3, 0 1px #d3d3d3;
+}
+

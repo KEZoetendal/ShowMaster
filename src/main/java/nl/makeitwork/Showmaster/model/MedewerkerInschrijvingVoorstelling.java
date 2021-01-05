@@ -2,7 +2,12 @@ package nl.makeitwork.Showmaster.model;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+
 import javax.persistence.*;
+
+/**
+ * @author ****
+ */
 
 @Entity(name = "medewerkerInschrijvingVoorstelling")
 @Table(name = "medewerker_inschrijving_voorstelling")
@@ -32,8 +37,6 @@ public class MedewerkerInschrijvingVoorstelling {
         this.voorstelling = voorstelling;
         this.inschrijvingStatus = inschrijvingStatus;
     }
-
-
 
     public Integer getMedewerkerInschrijvingTaakId() {
         return medewerkerInschrijvingTaakId;
@@ -70,9 +73,9 @@ public class MedewerkerInschrijvingVoorstelling {
     @Override
     public String toString() {
         return "MedewerkerInschrijvingVoorstelling{" +
-            "medewerkerInschrijvingTaakId=" + medewerkerInschrijvingTaakId +
-            ", medewerker=" + medewerker +
-            ", voorstelling=" + voorstelling +
-            '}';
+                "medewerkerInschrijvingTaakId=" + medewerkerInschrijvingTaakId +
+                ", medewerker=" + medewerker +
+                ", voorstelling=" + voorstelling +
+                '}';
     }
 }

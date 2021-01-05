@@ -5,13 +5,14 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 /**
- * @Author Gert Postma
+ * @author ****
  */
 @Entity
 public class Medewerker implements UserDetails {
@@ -41,6 +42,69 @@ public class Medewerker implements UserDetails {
     public Medewerker() {
         this.medewerkerProfielGegevens = new MedewerkerProfielGegevens();
         this.medewerkerProfielGegevens.setMedewerker(this);
+    }
+
+
+    protected boolean verplichtProfielCheck() {
+
+        boolean verplichtProfiel = false;
+
+        if (this.getMedewerkerProfielGegevens().getVoornaam() != null
+                && this.getMedewerkerProfielGegevens().getAchternaam() != null
+                && this.getMedewerkerProfielGegevens().getEmailadres() != null
+                && this.getMedewerkerProfielGegevens().getGeboortedatum() != null
+                && this.getMedewerkerProfielGegevens().getTelefoonnummer() != null) {
+            verplichtProfiel = true;
+
+        }
+        return verplichtProfiel;
+    }
+
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+
+        if (!verplichtProfielCheck()) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_ASPIRANT"));
+        } else if (this.planner) {
+            authorities.add(new SimpleGrantedAuthority("ROLE_MEDEWERKER"));
+            authorities.add(new SimpleGrantedAuthority("ROLE_PLANNER"));
+        } else {
+            authorities.add(new SimpleGrantedAuthority("ROLE_MEDEWERKER"));
+        }
+
+        return authorities;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.wachtwoord;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.gebruikersnaam;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 
     public Boolean getPlanner() {
@@ -98,46 +162,4 @@ public class Medewerker implements UserDetails {
     public void setVasteTaak(Taak vasteTaak) {
         this.vasteTaak = vasteTaak;
     }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> authorities = new ArrayList<>();
-
-        if (this.planner) {
-            authorities.add(new SimpleGrantedAuthority("ROLE_PLANNER"));
-        }
-        authorities.add(new SimpleGrantedAuthority("ROLE_MEDEWERKER"));
-        return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return this.wachtwoord;
-    }
-
-    @Override
-    public String getUsername() {
-        return this.gebruikersnaam;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }
-

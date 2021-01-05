@@ -27,6 +27,10 @@ import java.time.Month;
 
 import static org.mockito.Mockito.mock;
 
+/**
+ * @author ****
+ */
+
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
 @SpringBootTest
@@ -60,7 +64,7 @@ class MedewerkerInschrijvingVoorstellingControllerTest {
 
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
@@ -84,7 +88,7 @@ class MedewerkerInschrijvingVoorstellingControllerTest {
         Medewerker medewerker = new Medewerker();
 
         //Assert
-        Assert.assertEquals(medewerkerInschrijvingVoorstellingController.openVoorstellingenOphalen(model,medewerker),"openVoorstellingen");
+        Assert.assertEquals(medewerkerInschrijvingVoorstellingController.openVoorstellingenOphalen(model, medewerker), "openVoorstellingen");
 
 
     }
@@ -107,7 +111,6 @@ class MedewerkerInschrijvingVoorstellingControllerTest {
         medewerkerRepository.save(medewerker);
 
 
-
         MedewerkerInschrijvingVoorstelling medewerkerInschrijvingVoorstelling = new MedewerkerInschrijvingVoorstelling();
         medewerkerInschrijvingVoorstelling.setMedewerker(medewerker);
         medewerkerInschrijvingVoorstelling.setVoorstelling(voorstelling1);
@@ -115,16 +118,16 @@ class MedewerkerInschrijvingVoorstellingControllerTest {
 
         //Activate
         //Er wordt met dezelfde voorstellingId en medewerker een inschrijving gedaan, dit zou maar 1x mogen gebeuren.
-        medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling1.getVoorstellingId(),"Beschikbaar",medewerker);
-        medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling1.getVoorstellingId(),"Misschien",medewerker);
+        medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling1.getVoorstellingId(), "Beschikbaar", medewerker);
+        medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling1.getVoorstellingId(), "Misschien", medewerker);
 
 
         //Assert
-        Assert.assertEquals(medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling2.getVoorstellingId(),"Beschikbaar",medewerker),
-               "redirect:/rooster/openvoorstelling");
+        Assert.assertEquals(medewerkerInschrijvingVoorstellingController.inschrijvenVoorstelling(voorstelling2.getVoorstellingId(), "Beschikbaar", medewerker),
+                "redirect:/medewerker/rooster/openvoorstelling");
 
 
-        Assert.assertEquals(medewerkerInschrijvingVoorstellingRepository.findAll().size(),2);
+        Assert.assertEquals(medewerkerInschrijvingVoorstellingRepository.findAll().size(), 2);
 
     }
 }

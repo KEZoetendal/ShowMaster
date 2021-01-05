@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 /**
- * @author Pieter Dijkema
+ * @author ******
  * aanmaken van een show/voorstelling
  */
 
@@ -32,6 +32,8 @@ public class Voorstelling {
     @SheetColumn(value = "Datum")
     private String datum;
 
+    private String status;
+
     public void datumStringFormatterenNaarLocalDateTime() {
         DateTimeFormatter aFormatter = DateTimeFormatter.ofPattern("dd/MM/yy HH:mm");
         String datum = getDatum();
@@ -48,16 +50,13 @@ public class Voorstelling {
         setDatum(formattedString);
     }
 
-
     public String getDatum() {
-       return datum;
+        return datum;
     }
 
     public void setDatum(String datum) {
         this.datum = datum;
     }
-
-    private String status;
 
     public String getStatus() {
         return status;
@@ -85,7 +84,7 @@ public class Voorstelling {
     }
 
     public LocalDateTime getLocalDateTime() {
-       return localDateTime;
+        return localDateTime;
     }
 
     public void setLocalDateTime(LocalDateTime localDateTime) {

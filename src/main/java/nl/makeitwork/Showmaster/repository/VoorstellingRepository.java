@@ -8,13 +8,13 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author Pieter Dijkema
+ * @author ******
  * repo voor voorstellingenManagement
  */
 
-
 @Repository
 public interface VoorstellingRepository extends JpaRepository<Voorstelling, Integer> {
+
     List<Voorstelling> findAllByOrderByLocalDateTimeAsc();
 
     Voorstelling findByVoorstellingId(Integer voorstellingId);
@@ -22,4 +22,6 @@ public interface VoorstellingRepository extends JpaRepository<Voorstelling, Inte
     Voorstelling findByNaam(String naam);
 
     Voorstelling findByLocalDateTime(LocalDateTime localDateTime);
+
+    List<Voorstelling> findAllByStatus(String status);
 }

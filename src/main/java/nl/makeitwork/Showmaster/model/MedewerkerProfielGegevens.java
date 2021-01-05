@@ -3,15 +3,21 @@ package nl.makeitwork.Showmaster.model;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+
+/**
+ * @author ****
+ * in deze klasse staan alle NAW gegevens, geboortedatum en voorkeurstaak
+ */
 
 @Entity
 public class MedewerkerProfielGegevens {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer profielId;
 
     private String voornaam;
@@ -39,13 +45,14 @@ public class MedewerkerProfielGegevens {
 
     private String telefoonnummer;
 
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medewerker_id")
     private Medewerker medewerker;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "voorkeurstaakId", referencedColumnName = "taakId")
-    @OnDelete(action = OnDeleteAction.NO_ACTION)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Taak voorkeurstaak;
 
     public void localDateFormatterenNaarString() {

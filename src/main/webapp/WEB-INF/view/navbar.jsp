@@ -20,27 +20,28 @@
         <form:hidden path="medewerkerId"></form:hidden>
         <form:hidden path="planner"></form:hidden>
 
-        <header>
-            <div id="headerNavbar">
-                <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                    <a class="navbar-brand" href="${contextPath}/rooster">
-                    <img src="https://hetbolwerk.nl/wp-content/themes/hetbolwerk/images/hetbolwerklogo.svg" height="30" class="d-inline-block align-top" alt="Poppodium Het Bolwerk">
+        <div id="headerNavbar">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container">
+
+                    <a class="navbar-brand" href="${contextPath}/medewerker/rooster">
+                        <img src="https://hetbolwerk.nl/wp-content/themes/hetbolwerk/images/hetbolwerklogo.svg" height="30" class="d-inline-block align-top" alt="Poppodium Het Bolwerk">
                     </a>
-                    <div class="container">
-                        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                            <span class="navbar-toggler-icon"></span>
-                        </button>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
                         <div class="collapse navbar-collapse" id="navbarNav">
-                            <ul class="navbar-nav">
+                            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                             <li class="nav-item">
-                                <a class="nav-link" href="${contextPath}/rooster">ROOSTER</a>
+                                <a class="nav-link" href="${contextPath}/medewerker/rooster">ROOSTER</a>
                             </li>
                                 <sec:authorize access="hasRole('PLANNER')">
                                     <li class="nav-item">
                                         <a class="nav-link" href="${contextPath}/planner/voorstellingen">VOORSTELLINGEN</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="${contextPath}/planner/taak/aanmaken">TAAK AANMAKEN</a>
+                                        <a class="nav-link" href="${contextPath}/planner/taak/beheer">TAAKBEHEER</a>
                                     </li>
                                     <li class="nav-item">
                                         <a class="nav-link" href="${contextPath}/planner/gebruiker/overzicht">GEBRUIKERS</a>
@@ -49,16 +50,14 @@
                                 <li class="nav-item">
                                     <a class="nav-link" href="${contextPath}/profiel">MIJN PROFIEL</a>
                                 </li>
-                                <button class="btn btn-outline-primary" type="button" data-toggle="modal"
-                                  data-target="#logoutModal">
-                                Uitloggen
-                                </button>
-                            </div>
+                            </ul>
+                            <div class="my-2 my-lg-0">
+                                <button class="btn btn-outline-primary my-2 my-lg-0" type="button" data-toggle="modal"
+                                        data-target="#logoutModal">Uitloggen</button></div>
                         </div>
-                    </div>
-                </nav>
-            </div>
-        </header>
+        </nav>
+        </div>
+        </div>
         <jsp:include page="waarschuwingsPopups.jsp" />
         <script type="text/javascript" src="${contextPath}\resources\js\modal.functies.js"></script>
     </body>

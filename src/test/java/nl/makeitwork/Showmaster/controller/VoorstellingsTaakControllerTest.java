@@ -21,7 +21,10 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
+
+/**
+ * @author ******
+ */
 
 @RunWith(SpringRunner.class)
 @WebAppConfiguration
@@ -58,7 +61,7 @@ class VoorstellingsTaakControllerTest {
     private VoorstellingsTaakController voorstellingsTaakController;
 
     @Before
-    public void setup() throws Exception {
+    public void setup() {
         this.mockMvc = MockMvcBuilders.webAppContextSetup(this.webApplicationContext).build();
     }
 
@@ -123,7 +126,7 @@ class VoorstellingsTaakControllerTest {
         VoorstellingsTaak testVoorstellingstaak = voorstellingsTaken.get(0);
 
         voorstellingsTaakController.verwijderenTaakBijVoorstelling(testVoorstellingstaak.getVoorstellingsTaakId(),
-            testVoorstelling.getVoorstellingId());
+                testVoorstelling.getVoorstellingId());
 
         List<VoorstellingsTaak> voorstellingsTakenNaVerwijderen = voorstellingsTaakRepository.
                 findByVoorstellingVoorstellingIdOrderByTaakTaakNaam(testVoorstelling.getVoorstellingId());
@@ -154,10 +157,10 @@ class VoorstellingsTaakControllerTest {
         medewerkerRepository.save(testMedewerker);
 
         voorstellingsTaakController.opslaanMedewerkerBijVoorstellingstaak(testVoorstelling.getVoorstellingId(),
-            testVoorstellingsTaak.getVoorstellingsTaakId(), testMedewerker.getMedewerkerId());
+                testVoorstellingsTaak.getVoorstellingsTaakId(), testMedewerker.getMedewerkerId());
 
         List<VoorstellingsTaak> testVoorstellingsTaken = voorstellingsTaakRepository.
-            findByVoorstellingVoorstellingIdOrderByTaakTaakNaam(testVoorstelling.getVoorstellingId());
+                findByVoorstellingVoorstellingIdOrderByTaakTaakNaam(testVoorstelling.getVoorstellingId());
 
         //assert
         for (VoorstellingsTaak v: testVoorstellingsTaken) {
