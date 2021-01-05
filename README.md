@@ -14,3 +14,6 @@ Showmaster was het eindproject, dat ik samen met 2 klasgenoten heb gedaan. Doel 
 De verschillende MVC onderdelen hebben we onderling verdeeld, zodat iedereen ervaring heeft opgedaan op alle gebieden. 
 Daarnaast heb ik het gedeelte toegevoegd waardoor Excelbestanden geüpload kunnen worden, waardoor de voorstellingen kunnen worden ingeladen in de database.
 Ook heb ik de verschillende css stylesheets toegevoegd, om naast de standaard Bootstrap layouts aangepaste styling te kunnen gebruiken.
+
+
+In oktober 2019 heb ik het omscholingstraject succesvol afgerond en het diploma Software Engineering behaald.
