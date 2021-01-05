@@ -43,4 +43,3 @@ public class ErrorsController implements ErrorController {
         return "/error";
     }
 }
-
